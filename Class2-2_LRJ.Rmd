@@ -11,6 +11,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This is a test!
+
 In Module 2, we are learning how to transform data using the package `dplyr`. `dplyr` is part of the `tidyverse` and provides a set of verbs for manipulating and transforming data.
 
 *Note:* These class activities are adapted from "R for Data Science" by Grolemund and Wickham, chapter 5.  You can find this chapter [here](https://r4ds.had.co.nz/transform.html)
