@@ -59,24 +59,24 @@ names(nmes.data)
 So far we've been working with complete data frames or tibbles, but we can also access an individual column/variable from within a data set.  We do this with the `$` operator or the `[[ ]]` operator.  Suppose we want just the `age` column from the NMES data.  We could get this in three ways:
 
 Using the `$` operator and the name of the variable we want:
-```{r}
+```{r eval=FALSE}
 nmes.data$age
 ```
 
 Using the `[[]]` operator with the name of the variable we want in quotation marks:
-```{r}
+```{r eval=FALSE}
 nmes.data[["age"]]
 ```
 
 Using the `[[]]` operator with the position (column number) of the variable be want:
-```{r}
+```{r eval=FALSE}
 nmes.data[[15]]
 ```
 
 Referring to variables by position can be dangerous if variables are re-ordered or removed, so it's good practice to use names where possible.  
 
 We can use these methods of subsetting within the pipe as well, where we use the placeholder `.` to refer to the name of the tibble/data frame:
-```{r}
+```{r eval=FALSE}
 nmes.data %>%
   .$age
 
@@ -149,7 +149,7 @@ We can also specify what values in the datafile we want `R` to designate as miss
 nmesData <- read_csv("data/nmesPROCmissing99999.csv")
 mean(nmesData$bmi)  # all the missing BMI values are counted as 99999!
 
-nmesData <- read_csv("data/nmesPROCmissing99999.csv", na = c("99999"))
+nmesData <- read_csv("data/nmesPROCmissing99999.csv", na = c("99999", "NA", ""))
 mean(nmesData$bmi) 
 mean(nmesData$bmi, na.rm=TRUE)
 ```
@@ -185,25 +185,25 @@ We can see the variable types that `readr` has guessed in these specifications. 
 ```{r}
 nmesData <- read_csv("data/nmesPROC.csv", 
                      col_types = cols(
-                       id = col_double(),
-                       totalexp = col_double(),
-                       lc5 = col_character(),
-                       chd5 = col_character(),
-                       eversmk = col_character(),
-                       current = col_character(),
-                       former = col_character(),
-                       packyears = col_double(),
-                       yearsince = col_double(),
-                       bmi = col_double(),
-                       beltuse = col_character(),
-                       educate = col_character(),
-                       marital = col_integer(),
-                       poor = col_character(),
-                       age = col_double(),
-                       female = col_character(),
-                       mscd = col_character(),
-                       ageCat = col_character()
-                       )
+  id = col_double(),
+  totalexp = col_double(),
+  lc5 = col_character(),
+  chd5 = col_character(),
+  eversmk = col_character(),
+  current = col_character(),
+  former = col_character(),
+  packyears = col_double(),
+  yearsince = col_double(),
+  bmi = col_double(),
+  beltuse = col_character(),
+  educate = col_character(),
+  marital = col_integer(),
+  poor = col_character(),
+  age = col_double(),
+  female = col_character(),
+  mscd = col_character(),
+  ageCat = col_character()
+)
                      )
                      
 ```
