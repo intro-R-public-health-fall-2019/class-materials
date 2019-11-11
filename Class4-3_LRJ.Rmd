@@ -1,0 +1,203 @@
+---
+title: "Class Work 4-3"
+date: "Monday, November 11, 2019"
+output: 
+  html_document:
+    number_sections: true
+    toc: true
+    toc_depth: 1
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In Module 4, we are learning to write functions.  In Class 4-3, we will practice writing functions.
+
+*Note:* Our class materials for module 4 are adapted from "R for Data Science" by Grolemund and Wickham, chapter 19.  You can find this chapter [here](https://r4ds.had.co.nz/functions.html#when-should-you-write-a-function)
+
+# Some key information from previous classes
+
+We create a new function using the following format:
+```{r eval=FALSE}
+function_name <- function(argument_1, argument_2, ...) {
+# function's body
+# code to do the function's task using the variables argument_1 and argument_2 from above
+  
+}
+```
+
+We can specify a **default value** by setting the default value in the argument portion of the `function()` function, such as `function(argument_1, argument_2 = default)`.
+
+We can use condition execution if we want to run code only if a specific condition is met:
+```{r eval=FALSE}
+if (condition) {
+  # code executed when condition is TRUE
+} else {
+  # code executed when condition is FALSE
+}
+```
+
+We can chain multiple `if` statements together if we want to check a bunch of conditions in sequence:
+```{r eval=FALSE}
+
+if (this condition) {
+  # do something
+} else if (that condition) {
+  # do something else
+} else {
+  # do a third thing if neither of previous conditions are met
+}
+```
+
+We can **check** whether the values given to the function are valid using an `if` statement and then providing an error message to the user with the `stop()` function:
+```{r eval=FALSE}
+  if (condition) {
+    stop("error message")
+  }
+```
+
+We can pass arguments (like `na.rm = TRUE`) through our function to embedded functions using the `...` argument in our function:
+```{r eval=FALSE}
+function_name <- function(argument_1, argument_2, ...) {
+
+  mean(argument1, ...)
+  
+}
+```
+
+The **standard return rule** says that a function returns the last value that it computes.  We can force a value to return early by using `return(value)` within our function.
+
+# Practice
+
+1. Write a function `fahrenheit_to_celsius()` that converts temperatures from Fahrenheit to Celsius.
+```{r}
+# x <- 63  # temp in F
+# (x - 32) * 5/9
+
+f_to_c <- function(x) {
+  # check that input is numeric
+  if(!is.numeric(x)) {   # TRUE if not numeric, FALSE if numeric
+    stop("x must be numeric")
+  }
+  
+  (x - 32) * 5/9 
+}
+
+f_to_c(63)
+f_to_c(95)
+f_to_c(212) 
+f_to_c("five")
+f_to_c(five)
+
+# some condition to check on the input -- make sure the input value is numeric, no restrictions beyond that
+
+# another way
+
+f_to_c <- function(x) {
+  # check that input is numeric
+  if(is.numeric(x)) {   # TRUE if  numeric, FALSE if not numeric
+    (x - 32) * 5/9 
+  } else {  
+    stop("x must be numeric")
+  }
+}
+
+```
+
+2. Write a `temperature_conversion()` function that will convert temperatures from Fahrenheit to Celsius OR from Celsius to Fahrenheit, depending on what the user specifies.
+```{r}
+#example inputs
+x <- 23
+conv_type <- "f2c"
+
+(x - 32) * 5/9 
+
+#other example inputs
+x <- 23
+conv_type <- "c2f"
+
+(x * 9/5) + 32
+
+# build function
+
+temp_conversion <- function(x, conv_type = "f2c") {  # we will make f2c the default convergence type
+    # check that input is numeric
+  if(!is.numeric(x)) {   # TRUE if not numeric, FALSE if numeric
+    stop("x must be numeric")
+  }
+  
+  if (conv_type == "f2c") {
+    (x - 32) * 5/9 
+  } else if (conv_type == "c2f") {
+    (x * 9/5) + 32
+  } else {
+    "Please specify conv_type as `f2c` or `c2f`."
+  }
+
+}
+
+temp_conversion(23)
+temp_conversion(23, conv_type="f2c")
+temp_conversion(23, conv_type="c2f")
+temp_conversion("five", conv_type="c2f")
+
+# we could add a check at the beginning to check if x is numeric
+```
+
+3. Write a `logit()` function that calculates the log odds, log(p/(1-p)) of an input.  Be sure to check that the input is a valid probability between 0 and 1.
+```{r}
+p <- c(.5, .3, 1.3)
+log( p / (1-p) )
+
+logit <- function(p) {
+  # check that p is between 0 and 1
+  if ( any(p < 0) || any(p > 1)) {   # give the condition on input that will break my function -- give the BAD, checks all vals in vector
+    stop("p must contain values between 0 and 1")
+  }
+  log( p / (1-p) ) 
+}
+
+logit(.3)
+logit(.7)
+logit(1.4)
+```
+
+4. Write a `birthday` function that inputs a date in the format `"mm-dd"` and says “Happy birthday!” if it's your birthday and "It's not your birthday yet!" if it's not your birthday.
+```{r}
+
+```
+
+5. Write a function called `prop_ci()` that takes the arguments listed below and returns either a 95% confidence interval for a single proportion or a 95% confidence interval for the difference in proportions depending on those arguments.  I've given default values for these arguments as well.
+
+* `x` (no default value)
+* `y` (default value is `NULL` which corresponds to `one.prop` option for the `type` argument)
+* `type` (default value is `one.prop`, other value is `two.props`)
+* `...` (to be able to pass the `na.rm` option through to any functions as needed)
+
+Consider including a a way to check whether the vectors of `x` and `y` are 0/1 and thus such a confidence interval is appropriate.
+
+Hint: To be able to use any confidence level between 0 and 1, note that to get the multiplier for a 95% confidence interval. we could use the code: `qnorm(.975)`. To get the multiplier for a 99% confidence interval, we could use the code: `qnorm(.995)`.  To get the multiplier for a 90% confidence interval, we could use the code `qnorm(.95)`.  Can you generalize this to any confidence level? **not needed anymore**
+```{r}
+## type = "one.props"
+x <- c(0,1,1,0,1)
+y <- NULL
+type <- "one.props"
+
+# build the code for this case
+# look at solutions to mini-assignment 4-1
+
+
+
+## type = "two.props"
+x <- c(0,1,1,0,1)
+y <- c(1,1,1,0,0,0,0)
+type <- "two.props"
+
+# build the code for this case
+# look at solutions to mini-assignment 4-1
+
+
+```
+
+
+
