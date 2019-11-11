@@ -1,0 +1,108 @@
+---
+title: "Class Work 4-3"
+date: "Monday, November 11, 2019"
+output: 
+  html_document:
+    number_sections: true
+    toc: true
+    toc_depth: 1
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In Module 4, we are learning to write functions.  In Class 4-3, we will practice writing functions.
+
+*Note:* Our class materials for module 4 are adapted from "R for Data Science" by Grolemund and Wickham, chapter 19.  You can find this chapter [here](https://r4ds.had.co.nz/functions.html#when-should-you-write-a-function)
+
+# Some key information from previous classes
+
+We create a new function using the following format:
+```{r eval=FALSE}
+function_name <- function(argument_1, argument_2, ...) {
+# function's body
+# code to do the function's task using the variables argument_1 and argument_2 from above
+  
+}
+```
+
+We can specify a **default value** by setting the default value in the argument portion of the `function()` function, such as `function(argument_1, argument_2 = default)`.
+
+We can use condition execution if we want to run code only if a specific condition is met:
+```{r eval=FALSE}
+if (condition) {
+  # code executed when condition is TRUE
+} else {
+  # code executed when condition is FALSE
+}
+```
+
+We can chain multiple `if` statements together if we want to check a bunch of conditions in sequence:
+```{r eval=FALSE}
+
+if (this condition) {
+  # do something
+} else if (that condition) {
+  # do something else
+} else {
+  # do a third thing if neither of previous conditions are met
+}
+```
+
+We can **check** whether the values given to the function are valid using an `if` statement and then providing an error message to the user with the `stop()` function:
+```{r eval=FALSE}
+  if (condition) {
+    stop("error message")
+  }
+```
+
+We can pass arguments (like `na.rm = TRUE`) through our function to embedded functions using the `...` argument in our function:
+```{r eval=FALSE}
+function_name <- function(argument_1, argument_2, ...) {
+
+  mean(argument1, ...)
+  
+}
+```
+
+The **standard return rule** says that a function returns the last value that it computes.  We can force a value to return early by using `return(value)` within our function.
+
+# Practice
+
+1. Write a function `fahrenheit_to_celsius()` that converts temperatures from Fahrenheit to Celsius.
+```{r}
+
+```
+
+2. Write a `temperature_conversion()` function that will convert temperatures from Fahrenheit to Celsius OR from Celsius to Fahrenheit, depending on what the user specifies.
+```{r}
+
+```
+
+3. Write a `logit()` function that calculates the log odds, log(p/(1-p)) of an input.  Be sure to check that the input is a valid probability between 0 and 1.
+```{r}
+
+```
+
+4. Write a `birthday` function that inputs a date in the format `"mm-dd"` and says “Happy birthday!” if it's your birthday and "It's not your birthday yet!" if it's not your birthday.
+```{r}
+
+```
+
+5. Write a function called `prop_ci()` that takes the arguments listed below and returns either a confidence interval for a single mean or a confidence interval for the difference in means depending on those arguments.  I've given default values for these arguments as well.
+
+* `x` (no default value)
+* `y` (default value is `NULL` which corresponds to `one.mean` option for the `type` argument)
+* `conf.level` (default value is 0.95, can take any value between 0 and 1)
+* `type` (default value is `one.prop`, other value is `two.props`)
+* `...` (to be able to pass the `na.rm` option through to any functions as needed)
+
+Consider including a a way to check whether the vectors of `x` and `y` are 0/1 and thus such a confidence interval is appropriate.
+
+Hint: To be able to use any confidence level between 0 and 1, note that to get the multiplier for a 95% confidence interval. we could use the code: `qnorm(.975)`. To get the multiplier for a 99% confidence interval, we could use the code: `qnorm(.995)`.  To get the multiplier for a 90% confidence interval, we could use the code `qnorm(.95)`.  Can you generalize this to any confidence level?
+```{r}
+
+```
+
+
+
