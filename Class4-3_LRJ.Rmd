@@ -183,6 +183,10 @@ x <- c(0,1,1,0,1)
 y <- NULL
 type <- "one.props"
 
+  if ( any(x != 1 & x != 0) ) {   
+    stop("Please use data that is only 0/1.")
+  }
+
 # build the code for this case
 # look at solutions to mini-assignment 4-1
 
