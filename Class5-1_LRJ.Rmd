@@ -18,7 +18,7 @@ This document contains many things related to creating reports using R Markdown.
 There are a few packages that we will want to install for this module to help make pretty tables in our final report. You need to execute these lines by hand, since the `eval = FALSE` argument to the code chunk means these lines are not evaluated each time the document is compiled.
 ```{r , eval = FALSE}
 #install.packages("knitr")         
-#install.packages("pander")         
+install.packages("pander")         
 ```
 
 Then we will load these packages, along with the `tidyverse`, so we can use them:

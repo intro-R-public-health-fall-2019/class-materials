@@ -1,0 +1,53 @@
+---
+title: "Exploring relationship between medical expenditures and other variables"
+output: flexdashboard::flex_dashboard
+runtime: shiny
+source_code: embed
+---
+
+```{r global, include=FALSE}
+# load any necessary packages
+library(tidyverse)
+
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+load("nmes2018.rda")
+# the data in this file is called nmes.data
+```
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+Select your variable to see it's relationship with medical expenditures.
+
+```{r}
+# select inputs are the values on the right of the equal sign
+# input$variable would be be "cyl" if the user selects "Cylinders (cyl)"
+selectInput("variable", "Select your variable:",
+                  c("Age (in years)" = "age",
+                    "Smoking status (ever smoker or never smoker)" = "eversmk"))
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Miles per gallon (mpg)
+
+```{r}
+  # Generate a plot 
+renderPlot({
+  
+  if(input$variable == "age") {
+    
+ggplot(data = nmes.data) +
+    geom_point(mapping = aes_string(x=input$variable, y="totalexp"))
+  } else {
+    ggplot(data = nmes.data) +
+    geom_boxplot(mapping = aes_string(x=input$variable, y="totalexp"))
+  }
+    
+  })
+
+# we use aes_string() instead of aes() because our user inputs are stored in quotes
+# so we also have to put our variable of totalexp in quotes as well
+```
+
